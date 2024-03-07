@@ -11,13 +11,35 @@ import CoreData
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+      var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        Thread.sleep(forTimeInterval: 1)
         return true
     }
-
+    private func extendSplashScreenPresentation(){
+        // Get a refernce to LaunchScreen.storyboard
+        let launchStoryBoard = UIStoryboard.init(name: "LaunchScreen", bundle: nil)
+        // Get the splash screen controller
+        let splashController = launchStoryBoard.instantiateViewController(withIdentifier: "splashController")
+        // Assign it to rootViewController
+        self.window?.rootViewController = splashController
+        self.window?.makeKeyAndVisible()
+        // Setup a timer to remove it after n seconds
+        Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(dismissSplashController), userInfo: nil, repeats: false)
+    }
+    @objc private func dismissSplashController() {
+        // Get a refernce to Main.storyboard
+        let mainStoryBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        // Get initial viewController
+        let initController = mainStoryBoard.instantiateViewController(withIdentifier: "initController")
+        // Assign it to rootViewController
+        self.window?.rootViewController = initController
+        self.window?.makeKeyAndVisible()
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
